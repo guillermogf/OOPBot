@@ -54,6 +54,10 @@ class Bot():
         self.sendmessage_url = self.token_url + "/sendMessage?chat_id="
         self.sendimage_url = self.token_url + "/sendPhoto"
 
+        # Set empty commands list
+        self.text_commands = [[], []]
+        self.commands = [[], []]
+
         try:
             with open(self.lastupdate_path) as self.last_update_file:
                 self.last_update = self.last_update_file.read().rstrip("\n")
