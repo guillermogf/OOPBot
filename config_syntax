@@ -1,0 +1,20 @@
+[bot_name]
+# This is a comment. Inline comments are not allowed
+
+# token_path defaults to token
+token_path = /path/to/token/file
+
+# lastupdate_path defaults to lastupdate
+lastupdate_path = /path/to/lastupdate/file 
+
+# log_status defaults to on. Also works with 1,yes,true or 0,no,false
+log_status = [on|off]
+
+# log_path defaults to log
+log_path = /path/to/log/file
+
+# sleep_time defaults to 1.0
+sleep_time = float()
+
+# unknown_text defaults to Unknown command
+unknown_text = Unknown command
