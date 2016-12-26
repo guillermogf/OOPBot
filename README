@@ -1,0 +1,13 @@
+OOPBot is a Object Oriented Programmed Telegram Bot.
+
+It is made to ease the process of creating a new Bot, allowing different
+bots to share basic code and have configurable bots which don't take up much
+resourcers.
+
+Creating a bot is as easy as writing the following lines into a script:
+
+import Bot
+your_bot = Bot.Bot("your_bot", "/path/to/config/file")
+your_bot.setTextCommands([list_with_commands, list_with_texts])
+your_bot.setCommands([list_with_commands, list_with_functions])
+your_bot.start()
