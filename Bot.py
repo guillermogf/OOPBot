@@ -128,20 +128,24 @@ class Bot():
         if not self.sent:
             self.sendMessage(self.chat_id, self.unknown_text)
 
-        self.last_update = str(self.item["update_id"] + 1)
-
     def start(self):
         signal.signal(signal.SIGTERM, self.stop)
 
         while True:
             self.getUpdates()
             for self.item in self.updates:
+                try:
+                    tmp = self.item["message"]
+                except KeyError:  # ignore other updates
+                    continue
+
                 if self.log_status:  # Store time to log
                     with open(self.log_path, "a") as self.log_file:
                         self.log_file.write(str(time.time()) + "\n")
 
                 self.getMessage()
-            time.sleep(self.sleep_time)
+                time.sleep(self.sleep_time)
+                self.last_update = str(self.item["update_id"] + 1)
 
     def stop(self, signum, frame):
         with open(self.lastupdate_path, "w") as self.last_update_file:
