@@ -27,6 +27,7 @@ import signal
 
 class Bot():
     def __init__(self, bot_name, config_path):
+        """Initializes Bot object loading its configuration."""
         # Load Config
         self.default = {"token_path": "token", "lastupdate_path": "lastupdate",
                         "log_status": True, "log_path": "log",
@@ -66,8 +67,7 @@ class Bot():
             self.last_update = "0"
 
     def setTextCommands(self, commands, texts):
-        # List of commands which only send some text
-        # Commands should start with '/'
+        """Sets the list of commands which only return some text."""
         if len(commands) != len(texts):
             print("Length of command and texts lists do not agree")
             sys.exit(1)
@@ -75,8 +75,8 @@ class Bot():
         self.text_commands = [commands, texts]
 
     def setCommands(self, commands, functions):
-        # List of commands which require advanced functionality
-        # Commands should start with '/'
+        """Sets the list of commands which require to execute some kind of
+        code. This code has to be supplied in the form of functions."""
         if len(commands) != len(functions):
             print("Length of command and function lists do not agree")
             sys.exit(1)
@@ -84,6 +84,8 @@ class Bot():
         self.commands = [commands, functions]
 
     def getUpdates(self):
+        """Gets updates from the Telegram Bot API. Should only be called
+        within the self.start() loop."""
         self.getupdates_offset_url = self.getupdates_url + self.last_update
 
         self.get_updates = requests.get(self.getupdates_offset_url)
@@ -94,15 +96,20 @@ class Bot():
             self.updates = json.loads(self.get_updates.content)["result"]
 
     def sendMessage(self, chat_id, message):
+        """Sends passed message to specified chat."""
         self.message = requests.get(self.sendmessage_url + str(chat_id) +
                                     "&text=" + message)
 
     def sendImage(self, chat_id, image_path):
+        """Sends passed image to specified chat."""
         data = {"chat_id": str(chat_id)}
         files = {"photo": (image_path, open(image_path, "rb"))}
         requests.post(self.sendimage_url, data=data, files=files)
 
     def getMessage(self):
+        """Reads updates to get the messages. Then, it sends or runs what's
+        configured to do with received command. Should only be called from
+        self.start() loop"""
         # Group's status messages don't include "text" key
         try:
             self.text = self.item["message"]["text"]
@@ -129,6 +136,8 @@ class Bot():
             self.sendMessage(self.chat_id, self.unknown_text)
 
     def start(self):
+        """Starts the Bot in a never-ending loop. Once started, Bot should be
+        stop by sending a SIGTERM signal which will force it to run stop()"""
         signal.signal(signal.SIGTERM, self.stop)
 
         while True:
@@ -148,6 +157,8 @@ class Bot():
                 self.last_update = str(self.item["update_id"] + 1)
 
     def stop(self, signum, frame):
+        """Run when it receives a SIGTERM signal, it stores lastupdate to
+        configured file and stops the Bot."""
         with open(self.lastupdate_path, "w") as self.last_update_file:
             self.last_update_file.write(self.last_update)
         sys.exit(0)
