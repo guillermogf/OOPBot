@@ -1,0 +1,5 @@
+*.conf
+*.lastupdate
+*.log
+*.py
+*.token
