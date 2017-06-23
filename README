@@ -11,3 +11,6 @@ your_bot = Bot.Bot("your_bot", "/path/to/config/file")
 your_bot.setTextCommands([list_with_commands, list_with_texts])
 your_bot.setCommands([list_with_commands, list_with_functions])
 your_bot.start()
+
+An example configuration file and the options that can be used can be seen
+in the file config_syntax.
