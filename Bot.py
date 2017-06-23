@@ -89,7 +89,7 @@ class Bot():
         self.getupdates_offset_url = self.getupdates_url + self.last_update
 
         self.get_updates = requests.get(self.getupdates_offset_url)
-        if self.get_updates.status_code != 200:
+        if not self.get_updates.ok:
             print(self.get_updates.status_code)  # For debugging
             self.updates = ""
         else:
