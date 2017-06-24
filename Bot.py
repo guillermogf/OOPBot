@@ -56,8 +56,8 @@ class Bot():
         self.sendimage_url = self.token_url + "/sendPhoto"
 
         # Set empty commands list
-        self.text_commands = list(list(),list())
-        self.commands = list(list(),list())
+        self.text_commands = [list(), list()]
+        self.commands = [list(), list()]
 
         try:
             with open(self.lastupdate_path) as self.last_update_file:
